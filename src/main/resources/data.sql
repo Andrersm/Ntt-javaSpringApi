@@ -1,0 +1,5 @@
+INSERT INTO tb_movie (title, duration, short_description) VALUES ('The Shawshank Redemption', 142, 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.');
+INSERT INTO tb_movie (title, duration, short_description) VALUES ('The Godfather', 175, 'The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.');
+INSERT INTO tb_movie (title, duration, short_description) VALUES ('The Dark Knight', 152, 'When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.');
+INSERT INTO tb_movie (title, duration, short_description) VALUES ('12 Angry Men', 96, 'A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence.');
+INSERT INTO tb_movie (title, duration, short_description) VALUES ('Schindler\', 195, 'In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.');
