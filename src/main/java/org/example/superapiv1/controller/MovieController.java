@@ -17,7 +17,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<MovieDTO> findAll(){
         List<MovieDTO> listMovies = movieService.findAll();
         return listMovies;

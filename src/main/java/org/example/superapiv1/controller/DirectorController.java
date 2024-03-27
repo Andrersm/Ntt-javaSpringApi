@@ -17,7 +17,7 @@ public class DirectorController {
     @Autowired
     private DirectorService directorService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<DirectorDTO> findAll() {
         return directorService.findAll();
     }

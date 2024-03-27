@@ -17,7 +17,7 @@ public class StreamingController {
     @Autowired
     private StreamingService streamingService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<StreamingDTO> findAll() {
         return streamingService.findAll();
     }

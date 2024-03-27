@@ -1,5 +1,6 @@
 package org.example.superapiv1.DTO;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.example.superapiv1.entities.Movie;
@@ -9,7 +10,7 @@ public class MovieDTO {
     @NotBlank(message = "O titulo não pode estar vazio.")
     @Size(min = 2, max = 100, message = "O nome deve ter entre 2 e 100 caracteres.")
     private String title;
-    @NotBlank(message = "O duração não pode estar vazio.")
+    @Min(value = 1, message = "A duração deve ser pelo menos 1 minuto.")
     private int duration;
     private String shortDescription;
 

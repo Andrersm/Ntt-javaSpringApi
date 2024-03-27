@@ -17,7 +17,7 @@ public class StudioController {
     @Autowired
     private StudioService studioService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<StudioDTO> findAll() {
         return studioService.findAll();
     }

@@ -17,7 +17,7 @@ public class GenreController {
     @Autowired
     private GenreService genreService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<GenreDTO> findAll() {
         return genreService.findAll();
     }

@@ -17,7 +17,7 @@ public class FranchiseController {
     @Autowired
     private FranchiseService franchiseService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<FranchiseDTO> findAll() {
         return franchiseService.findAll();
     }

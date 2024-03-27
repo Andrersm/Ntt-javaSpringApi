@@ -17,7 +17,7 @@ public class WriterController {
     @Autowired
     private WriterService writerService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<WriterDTO> findAll() {
         return writerService.findAll();
     }

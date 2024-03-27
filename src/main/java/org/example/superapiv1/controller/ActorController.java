@@ -17,7 +17,7 @@ public class ActorController {
     @Autowired
     private ActorService actorService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<ActorDTO> findAll(){
         return actorService.findAll();
     }
