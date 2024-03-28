@@ -1,0 +1,46 @@
+Actor
+
+Relationships:
+ManyToMany with Movie
+Director
+
+Relationships:
+ManyToOne with Movie (each Movie has one Director)
+Franchise
+
+Relationships:
+OneToMany with Movie (one Franchise to many Movies)
+Genre
+
+Relationships:
+OneToMany with Movie (one Genre to many Movies)
+Movie
+
+Attributes:
+List of Actors (ManyToMany)
+Director (ManyToOne)
+Franchise (ManyToOne)
+Genre (ManyToOne)
+Streaming (ManyToOne)
+Studio (ManyToOne)
+List of Writers (ManyToMany)
+Relationships:
+ManyToMany with Actor
+ManyToOne with Director
+ManyToOne with Franchise
+ManyToOne with Genre
+ManyToOne with Streaming
+ManyToOne with Studio
+ManyToMany with Writer
+Streaming
+
+Relationships:
+OneToMany with Movie (each Movie has one Streaming platform)
+Studio
+
+Relationships:
+OneToMany with Movie (each Movie has one Studio)
+Writer
+
+Relationships:
+ManyToMany with Movie

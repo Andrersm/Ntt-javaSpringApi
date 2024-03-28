@@ -28,19 +28,19 @@ public class ActorController {
         return ResponseEntity.ok().body(actorDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<ActorDTO> create(@Valid @RequestBody ActorDTO actorDTO){
         actorDTO = actorService.save(actorDTO);
         return new ResponseEntity<>(actorDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ActorDTO> update(@PathVariable Long id, @RequestBody ActorDTO actorDTO) {
         actorDTO.setId(id);
         actorDTO = actorService.save(actorDTO);
         return ResponseEntity.ok().body(actorDTO);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         actorService.delete(id);
         return ResponseEntity.noContent().build();

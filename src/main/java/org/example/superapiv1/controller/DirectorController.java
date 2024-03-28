@@ -28,20 +28,20 @@ public class DirectorController {
         return ResponseEntity.ok().body(directorDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<DirectorDTO> create(@Valid @RequestBody DirectorDTO directorDTO) {
         directorDTO = directorService.save(directorDTO);
         return new ResponseEntity<>(directorDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<DirectorDTO> update(@PathVariable Long id, @RequestBody DirectorDTO directorDTO) {
         directorDTO.setId(id);
         directorDTO = directorService.save(directorDTO);
         return ResponseEntity.ok().body(directorDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         directorService.delete(id);
         return ResponseEntity.noContent().build();

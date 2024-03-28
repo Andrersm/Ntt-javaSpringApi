@@ -3,7 +3,10 @@ package org.example.superapiv1.DTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.example.superapiv1.entities.Genre;
 import org.example.superapiv1.entities.Movie;
+
+import java.util.stream.Collectors;
 
 public class MovieDTO {
     private Long id;
@@ -19,11 +22,9 @@ public class MovieDTO {
     }
 
     public MovieDTO(Movie movie) {
-
-        id = movie.getId();
-        title = movie.getTitle();
-        duration = movie.getDuration();
-        shortDescription = movie.getShortDescription();
+        this.id = movie.getId();
+        this.title = movie.getTitle();
+        this.shortDescription = movie.getShortDescription();
     }
 
     public Long getId() {

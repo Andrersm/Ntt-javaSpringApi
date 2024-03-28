@@ -28,20 +28,20 @@ public class WriterController {
         return ResponseEntity.ok().body(writerDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<WriterDTO> create(@Valid @RequestBody WriterDTO writerDTO) {
         writerDTO = writerService.save(writerDTO);
         return new ResponseEntity<>(writerDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<WriterDTO> update(@PathVariable Long id, @RequestBody WriterDTO writerDTO) {
         writerDTO.setId(id);
         writerDTO = writerService.save(writerDTO);
         return ResponseEntity.ok().body(writerDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         writerService.delete(id);
         return ResponseEntity.noContent().build();

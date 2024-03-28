@@ -2,6 +2,7 @@ package org.example.superapiv1.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,7 +13,7 @@ public class Writer {
     private Long id;
     private String name;
     @ManyToMany(mappedBy = "writers")
-    private List<Movie> writedMovies;
+    private List<Movie> writedMovies = new ArrayList<>();
 
     public Long getId() {
         return id;

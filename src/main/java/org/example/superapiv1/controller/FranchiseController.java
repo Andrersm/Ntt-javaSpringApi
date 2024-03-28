@@ -28,20 +28,20 @@ public class FranchiseController {
         return ResponseEntity.ok().body(franchiseDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<FranchiseDTO> create(@Valid  @RequestBody FranchiseDTO franchiseDTO) {
         franchiseDTO = franchiseService.save(franchiseDTO);
         return new ResponseEntity<>(franchiseDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<FranchiseDTO> update(@PathVariable Long id, @RequestBody FranchiseDTO franchiseDTO) {
         franchiseDTO.setId(id);
         franchiseDTO = franchiseService.save(franchiseDTO);
         return ResponseEntity.ok().body(franchiseDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         franchiseService.delete(id);
         return ResponseEntity.noContent().build();

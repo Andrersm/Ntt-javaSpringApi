@@ -29,20 +29,20 @@ public class MovieController {
         return ResponseEntity.ok().body(movieDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<MovieDTO> create(@Valid @RequestBody MovieDTO movieDTO){
         movieDTO = movieService.save(movieDTO);
         return new ResponseEntity<>(movieDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<MovieDTO> update(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
         movieDTO.setId(id);
         movieDTO = movieService.save(movieDTO);
         return ResponseEntity.ok().body(movieDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         movieService.delete(id);
         return ResponseEntity.noContent().build();

@@ -28,20 +28,20 @@ public class StreamingController {
         return ResponseEntity.ok().body(streamingDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<StreamingDTO> create(@Valid  @RequestBody StreamingDTO streamingDTO) {
         streamingDTO = streamingService.save(streamingDTO);
         return new ResponseEntity<>(streamingDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<StreamingDTO> update(@PathVariable Long id, @RequestBody StreamingDTO streamingDTO) {
         streamingDTO.setId(id);
         streamingDTO = streamingService.save(streamingDTO);
         return ResponseEntity.ok().body(streamingDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         streamingService.delete(id);
         return ResponseEntity.noContent().build();

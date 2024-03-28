@@ -28,20 +28,20 @@ public class GenreController {
         return ResponseEntity.ok().body(genreDTO);
     }
 
-    @PostMapping
+    @PostMapping("/save/{id}")
     public ResponseEntity<GenreDTO> create(@Valid @RequestBody GenreDTO genreDTO) {
         genreDTO = genreService.save(genreDTO);
         return new ResponseEntity<>(genreDTO, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<GenreDTO> update(@PathVariable Long id, @RequestBody GenreDTO genreDTO) {
         genreDTO.setId(id);
         genreDTO = genreService.save(genreDTO);
         return ResponseEntity.ok().body(genreDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         genreService.delete(id);
         return ResponseEntity.noContent().build();

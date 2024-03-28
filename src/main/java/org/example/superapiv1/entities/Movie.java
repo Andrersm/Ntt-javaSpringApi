@@ -20,6 +20,11 @@ public class Movie {
     private String shortDescription;
 
     @ManyToMany
+    @JoinTable(
+            name = "movie_actors",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "actor_id")
+    )
     private List<Actor> actors;
 
     @ManyToOne
@@ -40,19 +45,6 @@ public class Movie {
 
     @ManyToMany
     private List<Writer> writers;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return Objects.equals(id, movie.id) && Objects.equals(title, movie.title);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title);
-    }
 
     public Long getId() {
         return id;
@@ -151,5 +143,16 @@ public class Movie {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return duration == movie.duration && Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(imgUrl, movie.imgUrl) && Objects.equals(shortDescription, movie.shortDescription) && Objects.equals(actors, movie.actors) && Objects.equals(director, movie.director) && Objects.equals(genre, movie.genre) && Objects.equals(studio, movie.studio) && Objects.equals(franchise, movie.franchise) && Objects.equals(streaming, movie.streaming) && Objects.equals(writers, movie.writers);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, duration, imgUrl, shortDescription, actors, director, genre, studio, franchise, streaming, writers);
+    }
 }

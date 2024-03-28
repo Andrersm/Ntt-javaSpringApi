@@ -4,6 +4,11 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.example.superapiv1.entities.Director;
+import org.example.superapiv1.entities.Franchise;
+import org.example.superapiv1.entities.Movie;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class DirectorDTO {
@@ -14,16 +19,24 @@ public class DirectorDTO {
     private String name;
     @NotNull(message = "Todos tem um esporte favorito")
     private String favoriteSport;
+    private List<Long> movieIds;
+    private List<MovieDTO> directedMovies;
+
+
 
 
     public DirectorDTO(){
     }
 
     public DirectorDTO(Director director) {
-
-        id = director.getId();
-        name = director.getName();
-        favoriteSport = director.getFavoriteSport();
+        this.id = director.getId();
+        this.name = director.getName();
+        this.movieIds = director.getDirectedMovies().stream()
+                .map(Movie::getId)
+                .collect(Collectors.toList());
+        this.directedMovies = director.getDirectedMovies().stream()
+                .map(MovieDTO::new)
+                .collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -48,5 +61,21 @@ public class DirectorDTO {
 
     public void setFavoriteSport(String favoriteSport) {
         this.favoriteSport = favoriteSport;
+    }
+
+    public List<Long> getMovieIds() {
+        return movieIds;
+    }
+
+    public void setMovieIds(List<Long> movieIds) {
+        this.movieIds = movieIds;
+    }
+
+    public List<MovieDTO> getDirectedMovies() {
+        return directedMovies;
+    }
+
+    public void setDirectedMovies(List<MovieDTO> directedMovies) {
+        this.directedMovies = directedMovies;
     }
 }
