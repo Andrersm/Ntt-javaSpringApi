@@ -1,13 +1,13 @@
 package org.example.superapiv1.domain.client;
 
-public enum ClienteRole {
+public enum UserRole {
 
     ADMIN("admin"),
     USER("user");
 
     private String role;
 
-    ClienteRole(String role){
+    UserRole(String role){
         this.role = role;
     }
 

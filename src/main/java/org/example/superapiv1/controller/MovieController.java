@@ -29,7 +29,7 @@ public class MovieController {
         return ResponseEntity.ok().body(movieDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<MovieDTO> create(@Valid @RequestBody MovieDTO movieDTO){
         movieDTO = movieService.save(movieDTO);
         return new ResponseEntity<>(movieDTO, HttpStatus.CREATED);

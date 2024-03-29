@@ -28,7 +28,7 @@ public class StreamingController {
         return ResponseEntity.ok().body(streamingDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<StreamingDTO> create(@Valid  @RequestBody StreamingDTO streamingDTO) {
         streamingDTO = streamingService.save(streamingDTO);
         return new ResponseEntity<>(streamingDTO, HttpStatus.CREATED);

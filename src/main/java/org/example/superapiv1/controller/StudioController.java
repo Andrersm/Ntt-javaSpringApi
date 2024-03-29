@@ -28,7 +28,7 @@ public class StudioController {
         return ResponseEntity.ok().body(studioDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<StudioDTO> create(@Valid @RequestBody StudioDTO studioDTO) {
         studioDTO = studioService.save(studioDTO);
         return new ResponseEntity<>(studioDTO, HttpStatus.CREATED);

@@ -28,7 +28,7 @@ public class ActorController {
         return ResponseEntity.ok().body(actorDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<ActorDTO> create(@Valid @RequestBody ActorDTO actorDTO){
         actorDTO = actorService.save(actorDTO);
         return new ResponseEntity<>(actorDTO, HttpStatus.CREATED);

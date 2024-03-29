@@ -28,7 +28,7 @@ public class DirectorController {
         return ResponseEntity.ok().body(directorDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<DirectorDTO> create(@Valid @RequestBody DirectorDTO directorDTO) {
         directorDTO = directorService.save(directorDTO);
         return new ResponseEntity<>(directorDTO, HttpStatus.CREATED);

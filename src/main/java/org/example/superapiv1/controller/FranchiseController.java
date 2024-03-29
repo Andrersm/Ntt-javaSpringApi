@@ -28,7 +28,7 @@ public class FranchiseController {
         return ResponseEntity.ok().body(franchiseDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<FranchiseDTO> create(@Valid  @RequestBody FranchiseDTO franchiseDTO) {
         franchiseDTO = franchiseService.save(franchiseDTO);
         return new ResponseEntity<>(franchiseDTO, HttpStatus.CREATED);

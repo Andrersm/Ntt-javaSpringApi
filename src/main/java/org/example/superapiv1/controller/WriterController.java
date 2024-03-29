@@ -28,7 +28,7 @@ public class WriterController {
         return ResponseEntity.ok().body(writerDTO);
     }
 
-    @PostMapping("/save/{id}")
+    @PostMapping("/save/")
     public ResponseEntity<WriterDTO> create(@Valid @RequestBody WriterDTO writerDTO) {
         writerDTO = writerService.save(writerDTO);
         return new ResponseEntity<>(writerDTO, HttpStatus.CREATED);
