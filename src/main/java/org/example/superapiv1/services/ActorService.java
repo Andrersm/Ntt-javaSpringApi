@@ -1,6 +1,6 @@
 package org.example.superapiv1.services;
-
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.example.superapiv1.DTO.MovieDTO;
 import org.springframework.transaction.annotation.Transactional;
 import org.example.superapiv1.DTO.ActorDTO;
@@ -10,22 +10,14 @@ import org.example.superapiv1.exception.EntityDeletionException;
 import org.example.superapiv1.exception.UnexpectedIdException;
 import org.example.superapiv1.repositories.ActorRepository;
 import org.example.superapiv1.repositories.MovieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 public class ActorService {
-
-    @Autowired
     private ActorRepository actorRepository ;
-
-    @Autowired
     private MovieRepository movieRepository;
-
-    MovieDTO movieDTO;
 
     @Transactional(readOnly = true)
     public List<ActorDTO> findAll() {
@@ -39,7 +31,7 @@ public class ActorService {
             dto.setMovieIds(actor.getActedMovies().stream().map(Movie::getId).toList());
             dto.setMovies(actor.getActedMovies().stream().map(MovieDTO::new).toList());
             return dto;
-        }).collect(Collectors.toList());
+        }).toList();
     }
 
     @Transactional
@@ -75,8 +67,20 @@ public class ActorService {
         return new ActorDTO(actor);
     }
 
+    @Transactional
+    public ActorDTO update(ActorDTO actorDTO) {
+        if (actorDTO.getName().isBlank()) {
+            throw new IllegalArgumentException("O nome do ator é obrigatório.");
+        }
+        Actor actor = actorDTO.getId() != null ? actorRepository.findById(actorDTO.getId())
+                .orElseThrow(() -> new UnexpectedIdException("Ator não encontrado para o ID fornecido.")) : new Actor();
 
+        updateActorProperties(actor, actorDTO);
+        updateActedMovies(actor, actorDTO.getMovieIds());
+        actor = actorRepository.save(actor);
 
+        return new ActorDTO(actor);
+    }
 
     public void delete(Long id) {
 
@@ -84,6 +88,29 @@ public class ActorService {
             throw new EntityDeletionException("Ator", id);
         }
         actorRepository.deleteById(id);
+    }
+
+    private void updateActorProperties(Actor actor, ActorDTO actorDTO) {
+        actor.setName(actorDTO.getName());
+        actor.setFavoriteFood(actorDTO.getFavoriteFood());
+        actor.setAge(actorDTO.getAge());
+    }
+
+    private void updateActedMovies(Actor actor, List<Long> movieIds) {
+        if (movieIds != null && !movieIds.isEmpty()) {
+            List<Movie> movies = movieRepository.findAllById(movieIds);
+
+            actor.getActedMovies().forEach(movie -> movie.getActors().remove(actor));
+            actor.getActedMovies().clear();
+
+            movies.forEach(movie -> {
+                actor.getActedMovies().add(movie);
+                movie.getActors().add(actor);
+            });
+        } else {
+            actor.getActedMovies().forEach(movie -> movie.getActors().remove(actor));
+            actor.getActedMovies().clear();
+        }
     }
 
 

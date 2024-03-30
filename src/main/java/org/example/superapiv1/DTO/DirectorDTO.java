@@ -4,12 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import org.example.superapiv1.entities.Director;
-import org.example.superapiv1.entities.Franchise;
 import org.example.superapiv1.entities.Movie;
-
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 public class DirectorDTO {
 
@@ -22,9 +18,6 @@ public class DirectorDTO {
     private List<Long> movieIds;
     private List<MovieDTO> directedMovies;
 
-
-
-
     public DirectorDTO(){
     }
 
@@ -33,10 +26,10 @@ public class DirectorDTO {
         this.name = director.getName();
         this.movieIds = director.getDirectedMovies().stream()
                 .map(Movie::getId)
-                .collect(Collectors.toList());
+                .toList();
         this.directedMovies = director.getDirectedMovies().stream()
                 .map(MovieDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Long getId() {

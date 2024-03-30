@@ -1,11 +1,10 @@
 package org.example.superapiv1.entities;
-
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-
 import java.util.ArrayList;
 import java.util.List;
+
 @Entity
 @Table(name= "tb_director")
 public class Director {

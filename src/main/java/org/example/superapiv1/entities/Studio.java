@@ -1,12 +1,11 @@
 package org.example.superapiv1.entities;
-
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name= "tb_studio")
 public class Studio {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

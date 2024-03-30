@@ -1,7 +1,5 @@
 package org.example.superapiv1.repositories;
-
 import org.example.superapiv1.entities.Director;
-import org.example.superapiv1.entities.Franchise;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

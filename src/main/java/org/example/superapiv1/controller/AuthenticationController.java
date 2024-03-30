@@ -1,24 +1,16 @@
 package org.example.superapiv1.controller;
-
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.superapiv1.DTO.AuthenticationDTO;
-import org.example.superapiv1.DTO.LoginResponseDTO;
 import org.example.superapiv1.DTO.RegisterDTO;
 import org.example.superapiv1.DTO.ResponseDTO;
 import org.example.superapiv1.domain.client.User;
 import org.example.superapiv1.infra.security.TokenService;
 import org.example.superapiv1.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Optional;
 
 @RestController
@@ -29,13 +21,6 @@ public class AuthenticationController {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final TokenService tokenService;
-
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-
-
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody  AuthenticationDTO body){

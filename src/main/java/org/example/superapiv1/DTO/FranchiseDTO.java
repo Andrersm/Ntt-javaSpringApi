@@ -2,10 +2,8 @@ package org.example.superapiv1.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.example.superapiv1.entities.Actor;
 import org.example.superapiv1.entities.Franchise;
 import org.example.superapiv1.entities.Movie;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +46,6 @@ public class FranchiseDTO {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     public List<Long> getMoviesIds() {

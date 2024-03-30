@@ -1,20 +1,18 @@
 package org.example.superapiv1.controller;
-
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.example.superapiv1.DTO.WriterDTO;
 import org.example.superapiv1.services.WriterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/writer")
 public class WriterController {
 
-    @Autowired
     private WriterService writerService;
 
     @GetMapping("/list")

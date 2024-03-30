@@ -2,11 +2,8 @@ package org.example.superapiv1.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.example.superapiv1.entities.Genre;
 import org.example.superapiv1.entities.Movie;
-import org.example.superapiv1.entities.Streaming;
 import org.example.superapiv1.entities.Studio;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +15,6 @@ public class StudioDTO {
     private String name;
     private List<MovieDTO> movies;
     private List<Long> moviesIds;
-
 
     public StudioDTO(){
     }

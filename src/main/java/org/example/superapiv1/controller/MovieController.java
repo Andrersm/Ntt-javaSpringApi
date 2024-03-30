@@ -1,20 +1,19 @@
 package org.example.superapiv1.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.example.superapiv1.DTO.MovieDTO;
 import org.example.superapiv1.services.MovieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping(value= "/movie")
 public class MovieController {
 
-    @Autowired
     private MovieService movieService;
 
     @GetMapping("/list")

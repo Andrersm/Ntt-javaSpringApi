@@ -1,12 +1,8 @@
 package org.example.superapiv1.DTO;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.example.superapiv1.entities.Genre;
 import org.example.superapiv1.entities.Movie;
-
-import java.util.stream.Collectors;
 
 public class MovieDTO {
     private Long id;
@@ -16,7 +12,6 @@ public class MovieDTO {
     @Min(value = 1, message = "A duração deve ser pelo menos 1 minuto.")
     private int duration;
     private String shortDescription;
-
 
     public MovieDTO(){
     }
@@ -42,8 +37,6 @@ public class MovieDTO {
     public void setTitle(String title) {
         this.title = title;
     }
-
-
 
     public String getShortDescription() {
         return shortDescription;

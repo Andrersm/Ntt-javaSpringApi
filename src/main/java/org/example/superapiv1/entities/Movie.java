@@ -1,7 +1,5 @@
 package org.example.superapiv1.entities;
-
 import jakarta.persistence.*;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -41,7 +39,6 @@ public class Movie {
 
     @ManyToOne
     private Streaming streaming;
-
 
     @ManyToMany
     private List<Writer> writers;
@@ -141,7 +138,6 @@ public class Movie {
     public void setWriters(List<Writer> writers) {
         this.writers = writers;
     }
-
 
     @Override
     public boolean equals(Object o) {

@@ -2,7 +2,6 @@ package org.example.superapiv1.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import org.example.superapiv1.entities.Franchise;
 import org.example.superapiv1.entities.Genre;
 import org.example.superapiv1.entities.Movie;
 
@@ -17,7 +16,6 @@ public class GenreDTO {
     private String name;
     private List<MovieDTO> movies;
     private List<Long> moviesIds;
-
 
     public GenreDTO(){
     }

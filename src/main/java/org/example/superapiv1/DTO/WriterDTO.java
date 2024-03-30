@@ -1,11 +1,8 @@
 package org.example.superapiv1.DTO;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import org.example.superapiv1.entities.Movie;
-import org.example.superapiv1.entities.Studio;
 import org.example.superapiv1.entities.Writer;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +14,6 @@ public class WriterDTO {
     private String name;
     private List<MovieDTO> writedMovies;
     private List<Long> moviesId;
-
-
 
     public WriterDTO(){
     }
