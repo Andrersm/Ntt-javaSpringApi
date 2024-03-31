@@ -1,11 +1,15 @@
 package org.example.superapiv1.DTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 import org.example.superapiv1.entities.Movie;
 import org.example.superapiv1.entities.Writer;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Setter
+@Getter
 public class WriterDTO {
 
     private Long id;
@@ -23,41 +27,10 @@ public class WriterDTO {
         this.name = writer.getName();
         this.moviesId = writer.getWritedMovies().stream()
                 .map(Movie::getId)
-                .collect(Collectors.toList());
+                .toList();
         this.writedMovies = writer.getWritedMovies().stream()
                 .map(MovieDTO::new)
-                .collect(Collectors.toList());
+                .toList();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<MovieDTO> getWritedMovies() {
-        return writedMovies;
-    }
-
-    public void setWritedMovies(List<MovieDTO> writedMovies) {
-        this.writedMovies = writedMovies;
-    }
-
-    public List<Long> getMoviesId() {
-        return moviesId;
-    }
-
-    public void setMoviesId(List<Long> moviesId) {
-        this.moviesId = moviesId;
-    }
 }

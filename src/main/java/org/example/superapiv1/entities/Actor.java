@@ -1,9 +1,15 @@
 package org.example.superapiv1.entities;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+
+@Setter
+@Getter
 @Entity
 @Table(name= "tb_actor")
 public class Actor {
@@ -15,48 +21,8 @@ public class Actor {
     public String favoriteFood;
     public int age;
 
-    public Set<Movie> getActedMovies() {
-        return actedMovies;
-    }
-
-    public void setActedMovies(Set<Movie> actedMovies) {
-        this.actedMovies = actedMovies;
-    }
-
     @ManyToMany(mappedBy = "actors")
     private Set<Movie> actedMovies = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFavoriteFood() {
-        return favoriteFood;
-    }
-
-    public void setFavoriteFood(String favoriteFood) {
-        this.favoriteFood = favoriteFood;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     @Override
     public boolean equals(Object o) {

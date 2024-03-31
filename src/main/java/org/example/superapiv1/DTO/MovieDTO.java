@@ -2,8 +2,14 @@ package org.example.superapiv1.DTO;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.example.superapiv1.entities.Movie;
 
+@AllArgsConstructor
+@Setter
+@Getter
 public class MovieDTO {
     private Long id;
     @NotBlank(message = "O titulo não pode estar vazio.")
@@ -22,35 +28,5 @@ public class MovieDTO {
         this.shortDescription = movie.getShortDescription();
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
 }
