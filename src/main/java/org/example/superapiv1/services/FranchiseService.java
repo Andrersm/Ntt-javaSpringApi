@@ -23,59 +23,41 @@ public class FranchiseService {
     @Autowired
     private FranchiseRepository franchiseRepository;
 
-    @Autowired
-    private MovieRepository movieRepository;
 
+    @Transactional(readOnly = true)
     public List<FranchiseDTO> findAll() {
-        List<Franchise> listFranchise = franchiseRepository.findAll();
-        return listFranchise.stream().map(FranchiseDTO::new).toList();
+        List<Franchise> franchises = franchiseRepository.findAll();
+        return franchises.stream().map(FranchiseDTO::new).toList();
     }
 
+    @Transactional(readOnly = true)
     public FranchiseDTO findById(Long id) {
         Franchise franchise = franchiseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Franquia"));
+                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
         return new FranchiseDTO(franchise);
     }
 
     @Transactional
-    public FranchiseDTO save(FranchiseDTO franchiseDTO) {
-        Franchise franchise;
-        if (franchiseDTO.getId() != null) {
-            franchise = franchiseRepository.findById(franchiseDTO.getId())
-                    .orElseThrow(() -> new UnexpectedIdException("Franquia não encontrada com o ID: " + franchiseDTO.getId()));
-        } else {
-            franchise = new Franchise();
-        }
+    public FranchiseDTO create(FranchiseDTO franchiseDTO) {
+        Franchise franchise = new Franchise();
         franchise.setName(franchiseDTO.getName());
-
-
-        if (!franchise.getMovies().isEmpty()) {
-            franchise.getMovies().forEach(movie -> movie.setFranchise(null));
-        }
-
-        if (franchiseDTO.getMoviesIds() != null && !franchiseDTO.getMoviesIds().isEmpty()) {
-            List<Movie> movies = movieRepository.findAllById(franchiseDTO.getMoviesIds());
-            Franchise finalFranchise = franchise;
-            movies.forEach(movie -> movie.setFranchise(finalFranchise));
-            franchise.setMovies(movies);
-        } else {
-            franchise.setMovies(new ArrayList<>()); // Se nenhum ID de filme for fornecido, assegura-se que a lista de filmes seja limpa
-        }
-
-
         franchise = franchiseRepository.save(franchise);
-        // Atualiza o DTO para incluir os filmes associados após salvar
-        FranchiseDTO savedFranchiseDTO = new FranchiseDTO(franchise);
-        // Pode ser necessário ajustar a criação do FranchiseDTO aqui para refletir as mudanças feitas
-        savedFranchiseDTO.setMoviesIds(franchise.getMovies().stream().map(Movie::getId).collect(Collectors.toList()));
-        savedFranchiseDTO.setMovies(franchise.getMovies().stream().map(MovieDTO::new).collect(Collectors.toList()));
-        return savedFranchiseDTO;
+        return new FranchiseDTO(franchise);
     }
 
+    @Transactional
+    public FranchiseDTO update(Long id, FranchiseDTO franchiseDTO) {
+        Franchise franchise = franchiseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
+        franchise.setName(franchiseDTO.getName());
+        franchise = franchiseRepository.save(franchise);
+        return new FranchiseDTO(franchise);
+    }
+
+    @Transactional
     public void delete(Long id) {
-        if (!franchiseRepository.existsById(id)) {
-            throw new EntityDeletionException("Ator", id);
-        }
-        franchiseRepository.deleteById(id);
+        Franchise franchise = franchiseRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
+        franchiseRepository.delete(franchise);
     }
 }

@@ -1,8 +1,17 @@
 package org.example.superapiv1.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.util.List;
-import java.util.Objects;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name= "tb_movie")
 public class Movie {
@@ -17,126 +26,50 @@ public class Movie {
     @Column(columnDefinition = "TEXT")
     private String shortDescription;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "movie_actors",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "actor_id")
     )
-    private List<Actor> actors;
+    private Set<Actor> actors = new HashSet<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Director director;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Genre genre;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Studio studio;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Franchise franchise;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     private Streaming streaming;
 
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Writer> writers;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getShortDescription() {
-        return shortDescription;
-    }
-
-    public void setShortDescription(String shortDescription) {
-        this.shortDescription = shortDescription;
-    }
-
-    public List<Actor> getActors() {
-        return actors;
-    }
-
-    public void setActors(List<Actor> actors) {
-        this.actors = actors;
-    }
-
-    public Director getDirector() {
-        return director;
-    }
-
-    public void setDirector(Director director) {
-        this.director = director;
-    }
-
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
-    public Studio getStudio() {
-        return studio;
-    }
-
-    public void setStudio(Studio studio) {
-        this.studio = studio;
-    }
-
-    public Franchise getFranchise() {
-        return franchise;
-    }
-
-    public void setFranchise(Franchise franchise) {
-        this.franchise = franchise;
-    }
-
-    public Streaming getStreaming() {
-        return streaming;
-    }
-
-    public void setStreaming(Streaming streaming) {
-        this.streaming = streaming;
-    }
-
-    public List<Writer> getWriters() {
-        return writers;
-    }
-
-    public void setWriters(List<Writer> writers) {
-        this.writers = writers;
+    public Movie(Movie movie) {
+        this.id = movie.getId();
+        this.title = movie.getTitle();
+        this.duration = movie.getDuration();
+        this.imgUrl = movie.getImgUrl();
+        this.shortDescription = movie.getShortDescription();
+        this.actors = new HashSet<>(movie.getActors());
+        this.director = movie.getDirector();
+        this.genre = movie.getGenre();
+        this.studio = movie.getStudio();
+        this.franchise = movie.getFranchise();
+        this.streaming = movie.getStreaming();
+        this.writers = movie.getWriters() != null ? new ArrayList<>(movie.getWriters()) : null;
     }
 
     @Override
@@ -152,3 +85,4 @@ public class Movie {
         return Objects.hash(id, title, duration, imgUrl, shortDescription, actors, director, genre, studio, franchise, streaming, writers);
     }
 }
+

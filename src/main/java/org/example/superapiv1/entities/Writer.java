@@ -1,8 +1,13 @@
 package org.example.superapiv1.entities;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
 @Entity
 @Table(name= "tb_writer")
 public class Writer {
@@ -14,27 +19,4 @@ public class Writer {
     @ManyToMany(mappedBy = "writers")
     private List<Movie> writedMovies = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Movie> getWritedMovies() {
-        return writedMovies;
-    }
-
-    public void setWritedMovies(List<Movie> writedMovies) {
-        this.writedMovies = writedMovies;
-    }
 }

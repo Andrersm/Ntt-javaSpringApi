@@ -4,9 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.superapiv1.entities.Movie;
+import org.example.superapiv1.entities.*;
 
+import java.util.List;
+
+@NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
@@ -19,14 +23,20 @@ public class MovieDTO {
     private int duration;
     private String shortDescription;
 
-    public MovieDTO(){
-    }
+
 
     public MovieDTO(Movie movie) {
         this.id = movie.getId();
         this.title = movie.getTitle();
         this.shortDescription = movie.getShortDescription();
+        this.duration = movie.getDuration();
     }
 
 
+    public MovieDTO(MovieDTO movieDTO) {
+        this.id = movieDTO.getId();
+        this.title = movieDTO.getTitle();
+        this.duration = movieDTO.getDuration();
+        this.shortDescription = movieDTO.getShortDescription();
+    }
 }

@@ -1,13 +1,16 @@
 package org.example.superapiv1.entities;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
@@ -21,7 +24,7 @@ public class Actor {
     public String favoriteFood;
     public int age;
 
-    @ManyToMany(mappedBy = "actors")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "actors")
     private Set<Movie> actedMovies = new HashSet<>();
 
     @Override
@@ -29,11 +32,11 @@ public class Actor {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Actor actor = (Actor) o;
-        return age == actor.age && Objects.equals(id, actor.id) && Objects.equals(name, actor.name) && Objects.equals(favoriteFood, actor.favoriteFood) && Objects.equals(actedMovies, actor.actedMovies);
+        return Objects.equals(id, actor.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, favoriteFood, age, actedMovies);
+        return Objects.hash(id);
     }
 }

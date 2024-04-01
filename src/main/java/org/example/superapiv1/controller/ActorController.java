@@ -23,8 +23,9 @@ public class ActorController {
 
     @Operation(summary = "Lista todos os atores")
     @GetMapping("/list")
-    public List<ActorDTO> findAll(){
-        return actorService.findAll();
+    public ResponseEntity<List<ActorDTO>> findAll() {
+        List<ActorDTO> list = actorService.findAll();
+        return ResponseEntity.ok().body(list);
     }
 
 
@@ -36,31 +37,29 @@ public class ActorController {
                     @ApiResponse(description = "Ator não encontrado", responseCode = "404")
             })
     @GetMapping("/{id}")
-    public ResponseEntity<ActorDTO> findByid(@PathVariable Long id) {
-        ActorDTO actorDTO = actorService.findById(id);
-        return ResponseEntity.ok().body(actorDTO);
+    public ResponseEntity<ActorDTO> findById(@PathVariable Long id) {
+        ActorDTO dto = actorService.findById(id);
+        return ResponseEntity.ok().body(dto);
     }
 
     @Operation(summary = "Cria um novo ator")
     @PostMapping("/save/")
-    public ResponseEntity<ActorDTO> create(@Valid @RequestBody ActorDTO actorDTO){
-        actorDTO = actorService.save(actorDTO);
-        return new ResponseEntity<>(actorDTO, HttpStatus.CREATED);
+    public ResponseEntity<ActorDTO> create(@RequestBody ActorDTO actorDTO) {
+        ActorDTO newDto = actorService.create(actorDTO);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @Operation(summary = "Atualiza um ator existente pelo ID")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ActorDTO> update(@Valid @PathVariable Long id, @RequestBody ActorDTO actorDTO) {
-        actorDTO.setId(id);
-        actorDTO = actorService.update(actorDTO);
-        return ResponseEntity.ok().body(actorDTO);
+    public ResponseEntity<ActorDTO> update(@PathVariable Long id, @RequestBody ActorDTO actorDTO) {
+        ActorDTO updatedDto = actorService.update(id, actorDTO);
+        return ResponseEntity.ok().body(updatedDto);
     }
     @Operation(summary = "Exclui um ator pelo ID")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         actorService.delete(id);
         return ResponseEntity.noContent().build();
-
     }
 
 }

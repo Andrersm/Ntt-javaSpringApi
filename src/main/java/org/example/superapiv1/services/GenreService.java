@@ -28,49 +28,33 @@ public class GenreService {
 
     public List<GenreDTO> findAll() {
         List<Genre> listGenre = genreRepository.findAll();
-        return listGenre.stream().map(GenreDTO::new).toList();
+        return listGenre.stream().map(GenreDTO::new).collect(Collectors.toList());
     }
 
-    public GenreDTO findById(Long id) {
-        Genre genre = genreRepository.findById(id)
+    public Genre findGenreById(Long id) {
+        Genre newgenre = genreRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Genero"));
-        return new GenreDTO(genre);
+        return new Genre(newgenre);
     }
 
     @Transactional
-    public GenreDTO save(GenreDTO genreDTO) {
-        Genre genre;
-        if (genreDTO.getId() != null) {
-            genre = genreRepository.findById(genreDTO.getId())
-                    .orElseThrow(() -> new UnexpectedIdException("Gênero não encontrado com o ID: " + genreDTO.getId()));
-        } else {
-            genre = new Genre();
-        }
+    public Genre create(GenreDTO genreDTO) {
+        Genre genre = new Genre();
         genre.setName(genreDTO.getName());
-
-        if (genre.getMovies() != null) {
-            genre.getMovies().forEach(movie -> movie.setGenre(null));
-        }
-
-
-        if (genreDTO.getMoviesIds() != null && !genreDTO.getMoviesIds().isEmpty()) {
-            List<Movie> movies = movieRepository.findAllById(genreDTO.getMoviesIds());
-            Genre finalGenre = genre;
-            movies.forEach(movie -> movie.setGenre(finalGenre));
-            genre.setMovies(movies);
-        } else {
-            genre.setMovies(new ArrayList<>());
-        }
-
-        genre = genreRepository.save(genre);
-
-
-        GenreDTO savedGenreDTO = new GenreDTO(genre);
-        savedGenreDTO.setMoviesIds(genre.getMovies().stream().map(Movie::getId).collect(Collectors.toList()));
-        savedGenreDTO.setMovies(genre.getMovies().stream().map(MovieDTO::new).collect(Collectors.toList()));
-        return savedGenreDTO;
+        return genreRepository.save(genre);
     }
 
+    @Transactional
+    public GenreDTO update(GenreDTO genreDTO) {
+        if (genreDTO.getId() == null) {
+            throw new EntityNotFoundException("O ID não pode ser nulo para atualização.");
+        }
+        Genre existingGenre = genreRepository.findById(genreDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Gênero não encontrado com ID: " + genreDTO.getId()));
+        existingGenre.setName(genreDTO.getName());
+        Genre updatedGenre = genreRepository.save(existingGenre);
+        return new GenreDTO(updatedGenre);
+    }
 
 
     public void delete(Long id) {

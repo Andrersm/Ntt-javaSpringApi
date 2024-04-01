@@ -6,9 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.superapiv1.entities.Actor;
-import org.example.superapiv1.entities.Movie;
 
-import java.util.List;
 
 @Setter
 @Getter
@@ -28,9 +26,6 @@ public class ActorDTO {
     @Min(value = 0, message = "A idade não pode ser negativa.")
     private int age;
 
-    private List<Long> movieIds;
-
-    private List<MovieDTO> movies;
 
     public ActorDTO() {}
 
@@ -39,12 +34,6 @@ public class ActorDTO {
         this.name = actor.getName();
         this.favoriteFood = actor.getFavoriteFood();
         this.age = actor.getAge();
-        this.movieIds = actor.getActedMovies().stream()
-                .map(Movie::getId)
-                .toList();
-        this.movies = actor.getActedMovies().stream()
-                .map(MovieDTO::new)
-                .toList();
     }
 
 

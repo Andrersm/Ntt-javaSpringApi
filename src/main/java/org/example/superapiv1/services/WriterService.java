@@ -26,60 +26,39 @@ public class WriterService {
     @Autowired
     private MovieRepository movieRepository;
 
+    @Transactional
     public List<WriterDTO> findAll() {
-        List<Writer> listWriter = writerRepository.findAll();
-        return listWriter.stream()
-                .map(WriterDTO::new)
-                .collect(Collectors.toList());
+        List<Writer> list = writerRepository.findAll();
+        return list.stream().map(WriterDTO::new).toList();
     }
 
+    @Transactional
     public WriterDTO findById(Long id) {
         Writer writer = writerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Escritor"));
+                .orElseThrow(() -> new EntityNotFoundException("Escritor não encontrado"));
         return new WriterDTO(writer);
     }
 
     @Transactional
-    public WriterDTO save(WriterDTO writerDTO) {
-        Writer writer;
-        if (writerDTO.getId() != null) {
-            writer = writerRepository.findById(writerDTO.getId())
-                    .orElseThrow(() -> new UnexpectedIdException("Escritor não encontrado com o ID: " + writerDTO.getId()));
-        } else {
-            writer = new Writer();
-        }
+    public WriterDTO create(WriterDTO writerDTO) {
+        Writer writer = new Writer();
         writer.setName(writerDTO.getName());
-
-        if (writer.getWritedMovies() != null) {
-            writer.getWritedMovies().forEach(movie -> movie.setWriters(null));
-        }
-
-        if (writerDTO.getMoviesId() != null && !writerDTO.getMoviesId().isEmpty()) {
-            List<Movie> movies = movieRepository.findAllById(writerDTO.getMoviesId());
-            Writer finalWriter = writer;
-            movies.forEach(movie -> {
-                if (movie.getWriters() == null) {
-                    movie.setWriters(new ArrayList<>());
-                }
-                movie.getWriters().add(finalWriter);
-            });
-            writer.setWritedMovies(movies);
-        } else {
-            writer.setWritedMovies(new ArrayList<>());
-        }
-
         writer = writerRepository.save(writer);
-
-        WriterDTO savedWriterDTO = new WriterDTO(writer);
-        savedWriterDTO.setMoviesId(writer.getWritedMovies().stream().map(Movie::getId).collect(Collectors.toList()));
-        savedWriterDTO.setWritedMovies(writer.getWritedMovies().stream().map(MovieDTO::new).collect(Collectors.toList()));
-        return savedWriterDTO;
+        return new WriterDTO(writer);
+    }
+    @Transactional
+    public WriterDTO update(Long id, WriterDTO writerDTO) {
+        Writer writer = writerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Escritor não encontrado"));
+        writer.setName(writerDTO.getName());
+        writer = writerRepository.save(writer);
+        return new WriterDTO(writer);
     }
 
+    @Transactional
     public void delete(Long id) {
-        if (!writerRepository.existsById(id)) {
-            throw new EntityDeletionException("Escritor", id);
-        }
-        writerRepository.deleteById(id);
+        Writer writer = writerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Escritor não encontrado"));
+        writerRepository.delete(writer);
     }
 }

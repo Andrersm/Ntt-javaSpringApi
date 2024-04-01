@@ -26,54 +26,41 @@ public class StudioService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public List<StudioDTO> findAll(){
-        List<Studio> listStudio = studioRepository.findAll();
-        return listStudio.stream().map(StudioDTO::new).toList();
-    }
-
-    public StudioDTO findById(Long id){
-        Studio studio = studioRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Estudio"));
-        return new StudioDTO(studio);
-
+    @Transactional
+    public List<StudioDTO> findAll() {
+        List<Studio> list = studioRepository.findAll();
+        return list.stream().map(StudioDTO::new).toList();
     }
 
     @Transactional
-    public StudioDTO save(StudioDTO studioDTO){
-        Studio studio;
-        if (studioDTO.getId() != null) {
-            studio = studioRepository.findById(studioDTO.getId())
-                    .orElseThrow(() -> new UnexpectedIdException("studio não encontrado com o ID: " + studioDTO.getId()));
-        } else {
-            studio = new Studio();
-        }
-        studio.setName(studioDTO.getName());
-
-        if(studio.getMovies() != null){
-            studio.getMovies().forEach(movie -> movie.setStudio(null));
-        }
-
-        if (studioDTO.getMoviesIds() != null && !studioDTO.getMoviesIds().isEmpty()) {
-            List<Movie> movies = movieRepository.findAllByIdIn((studioDTO.getMoviesIds()));
-            Studio finalStudio = studio;
-            movies.forEach(movie -> movie.setStudio(finalStudio));
-            studio.setMovies(movies);
-        } else {
-            studio.setMovies(new ArrayList<>());
-        }
-        studio = studioRepository.save(studio);
-
-        StudioDTO savedStudioDTO = new StudioDTO(studio);
-        savedStudioDTO.setMoviesIds(studio.getMovies().stream().map(Movie::getId).collect(Collectors.toList()));
-        savedStudioDTO.setMovies(studio.getMovies().stream().map(MovieDTO::new).collect(Collectors.toList()));
-        return savedStudioDTO;
+    public StudioDTO findById(Long id) {
+        Studio studio = studioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estúdio não encontrado"));
+        return new StudioDTO(studio);
     }
 
-    public void delete(Long id) {
+    @Transactional
+    public StudioDTO create(StudioDTO studioDTO) {
+        Studio studio = new Studio();
+        studio.setName(studioDTO.getName());
+        studio = studioRepository.save(studio);
+        return new StudioDTO(studio);
+    }
 
-        if (!studioRepository.existsById(id)) {
-            throw new EntityDeletionException("Estudio", id);
-        }
-        studioRepository.deleteById(id);
+    @Transactional
+    public StudioDTO update(Long id, StudioDTO studioDTO) {
+        Studio studio = studioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estúdio não encontrado"));
+        studio.setName(studioDTO.getName());
+        studio = studioRepository.save(studio);
+        return new StudioDTO(studio);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Studio studio = studioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Estúdio não encontrado"));
+        studioRepository.delete(studio);
     }
 
 }
