@@ -2,6 +2,7 @@ package org.example.superapiv1.domain.client;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
@@ -14,6 +15,7 @@ public class User {
     private String id;
     private String login;
     private String password;
+
 
     public User(String login, String password) {
         this.login = login;

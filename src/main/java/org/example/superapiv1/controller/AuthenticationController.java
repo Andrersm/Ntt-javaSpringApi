@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.superapiv1.DTO.AuthenticationDTO;
 import org.example.superapiv1.DTO.RegisterDTO;
@@ -48,13 +49,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     @Operation(summary = "Registro de novo usuário",
-            description = "Registra um novo usuário no sistema e retorna um token JWT.",
+            description = "Registra um novo usuário no sistema",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Usuário registrado com sucesso",
                             content = @Content(schema = @Schema(implementation = ResponseDTO.class))),
                     @ApiResponse(responseCode = "400", description = "Usuário já existe")
             })
-    public ResponseEntity register(@RequestBody  RegisterDTO body) {
+    public ResponseEntity register(@Valid @RequestBody  RegisterDTO body) {
         Optional<User> user = this.userRepository.findByLogin(body.login());
 
         if (user.isEmpty()) {
@@ -62,10 +63,9 @@ public class AuthenticationController {
             newUser.setPassword(passwordEncoder.encode(body.password()));
             newUser.setLogin(body.login());
             this.userRepository.save(newUser);
-            String token = this.tokenService.generateToken(newUser);
-            return ResponseEntity.ok(new ResponseDTO(newUser.getLogin(), token));
+            return ResponseEntity.ok(new ResponseDTO(newUser.getLogin(), "Usuario Criado com sucesso"));
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().body("Já existe um usuário com este login");
     }
 
     @GetMapping("/current-user")
