@@ -2,20 +2,13 @@ package org.example.superapiv1.services;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.superapiv1.DTO.FranchiseDTO;
-import org.example.superapiv1.DTO.MovieDTO;
 import org.example.superapiv1.entities.Franchise;
-import org.example.superapiv1.entities.Movie;
-import org.example.superapiv1.exception.EntityDeletionException;
-import org.example.superapiv1.exception.UnexpectedIdException;
 import org.example.superapiv1.repositories.FranchiseRepository;
-import org.example.superapiv1.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class FranchiseService {
@@ -33,7 +26,7 @@ public class FranchiseService {
     @Transactional(readOnly = true)
     public FranchiseDTO findById(Long id) {
         Franchise franchise = franchiseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Franquia"));
         return new FranchiseDTO(franchise);
     }
 
@@ -48,7 +41,7 @@ public class FranchiseService {
     @Transactional
     public FranchiseDTO update(Long id, FranchiseDTO franchiseDTO) {
         Franchise franchise = franchiseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Franquia"));
         franchise.setName(franchiseDTO.getName());
         franchise = franchiseRepository.save(franchise);
         return new FranchiseDTO(franchise);
@@ -57,7 +50,7 @@ public class FranchiseService {
     @Transactional
     public void delete(Long id) {
         Franchise franchise = franchiseRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Franquia não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Franquia"));
         franchiseRepository.delete(franchise);
     }
 }

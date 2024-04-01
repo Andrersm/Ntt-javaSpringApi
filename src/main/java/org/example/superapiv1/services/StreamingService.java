@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StreamingService {
@@ -27,7 +26,7 @@ public class StreamingService {
     @Transactional(readOnly = true)
     public StreamingDTO findById(Long id) {
         Streaming streaming = streamingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Streaming não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Streaming"));
         return new StreamingDTO(streaming);
     }
 
@@ -42,7 +41,7 @@ public class StreamingService {
     @Transactional
     public StreamingDTO update(Long id, StreamingDTO streamingDTO) {
         Streaming streaming = streamingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Streaming não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Streaming"));
         streaming.setName(streamingDTO.getName());
         streaming = streamingRepository.save(streaming);
         return new StreamingDTO(streaming);
@@ -51,7 +50,7 @@ public class StreamingService {
     @Transactional
     public void delete(Long id) {
         Streaming streaming = streamingRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Streaming não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Streaming"));
         streamingRepository.delete(streaming);
     }
 }

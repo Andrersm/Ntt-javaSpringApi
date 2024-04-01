@@ -1,9 +1,9 @@
 package org.example.superapiv1.services;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.example.superapiv1.DTO.DirectorDTO;
 import org.example.superapiv1.entities.Director;
 import org.example.superapiv1.repositories.DirectorRepository;
-import org.example.superapiv1.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,8 +16,6 @@ public class DirectorService {
     @Autowired
     private DirectorRepository directorRepository;
 
-    @Autowired
-    private MovieRepository movieRepository;
 
 
     @Transactional(readOnly = true)
@@ -29,7 +27,7 @@ public class DirectorService {
     @Transactional(readOnly = true)
     public Director findById(Long id) {
         return directorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Diretor"));
     }
 
     @Transactional
@@ -44,7 +42,7 @@ public class DirectorService {
     @Transactional
     public DirectorDTO update(Long id, DirectorDTO directorDTO) {
         Director existingDirector = directorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Diretor"));
         existingDirector.setName(directorDTO.getName());
         existingDirector.setFavoriteSport(directorDTO.getFavoriteSport());
         Director updatedDirector = directorRepository.save(existingDirector);
@@ -55,7 +53,7 @@ public class DirectorService {
     @Transactional
     public void delete(Long id) {
         Director director = directorRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Diretor não encontrado"));
+                .orElseThrow(() -> new EntityNotFoundException("Diretor"));
         directorRepository.delete(director);
     }
 }

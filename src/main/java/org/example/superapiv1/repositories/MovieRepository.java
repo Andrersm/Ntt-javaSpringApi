@@ -11,5 +11,6 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
     @EntityGraph(attributePaths = {"actors", "director", "genre", "studio", "franchise", "streaming", "writers"})
     Optional<Movie> findById(Long id);
+    List<Movie> findByTitleContainingIgnoreCase(String title);
 }
 

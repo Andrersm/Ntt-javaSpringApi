@@ -21,6 +21,7 @@ public class MovieDTO {
     private String title;
     @Min(value = 1, message = "A duração deve ser pelo menos 1 minuto.")
     private int duration;
+    @NotBlank(message = "A descrição é obrigatorio")
     private String shortDescription;
 
 
