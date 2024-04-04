@@ -1,5 +1,7 @@
 package org.example.superapiv1;
 
+import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.example.superapiv1.exception.UnexpectedIdException;
 import org.springframework.http.HttpStatus;
@@ -48,6 +50,24 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(JWTCreationException.class)
+    public ResponseEntity<Object> handleJWTCreationException(JWTCreationException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message","Erro ao criar JWT " +  ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(JWTVerificationException.class)
+    public ResponseEntity<Object> handleJWTVerificationException(JWTVerificationException ex, WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message","Erro ao fazer a verificação da JWT " +  ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
     }
 
 }

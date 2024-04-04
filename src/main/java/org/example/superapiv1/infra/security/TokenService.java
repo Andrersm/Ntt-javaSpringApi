@@ -20,14 +20,13 @@ public class TokenService {
     public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer("super-api")
                     .withSubject(user.getLogin())
                     .withExpiresAt(Date.from(generateExpirantionDate()))
                     .sign(algorithm);
-            return token;
         } catch (JWTCreationException exception) {
-            throw new RuntimeException("Erro ao criar o token", exception);
+            throw new JWTCreationException("Token", exception);
         }
     }
 
@@ -40,7 +39,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            return null;
+            throw new JWTVerificationException("Token", exception);
         }
     }
 
